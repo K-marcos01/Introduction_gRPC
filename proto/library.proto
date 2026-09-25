@@ -26,6 +26,9 @@ message GetBookRequest {
 }
 
 // TODO etape 2 : creer le message ListBooksRequest
+message ListBooksRequest {
+  string author = 1;
+}
 // avec un seul champ texte nomme "author" (numero 1).
 
 // TODO etape 6 (bonus) : creer le message AddBooksResponse
