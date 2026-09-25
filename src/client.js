@@ -22,8 +22,14 @@ function createClient(address = SERVER_ADDRESS) {
 function getBook(client, id) {
   return new Promise((resolve, reject) => {
     // TODO etape 3 : appeler client.getBook({ id }, (error, book) => { ... })
+    client.getBook({ id }, (error, book) => {
     // Si error existe, appeler reject(error). Sinon, appeler resolve(book).
-
+    if (error) {
+      reject(error);
+    } else {
+      resolve(book);
+    }
+  });
     reject(new Error('getBook is not implemented yet'));
   });
 }
