@@ -18,20 +18,19 @@ const libraryProto = grpc.loadPackageDefinition(packageDefinition).library;
 // call.request contient la requete envoyee par le client (ici { id }).
 // callback(error, response) renvoie la reponse au client.
 function getBook(call, callback) {
-  // TODO etape 3 : chercher le livre avec findBookById(call.request.id)
-
   // 1. Récupérer l'id envoyé dans la requête
   const id = call.request.id;
 
   // 2. Chercher le livre correspondant à cet id
   const book = findBookById(id);
 
-  // 3. Renvoyer le livre avec callback(null, book)
+  // 3. Si le livre n'existe pas, renvoyer une erreur ET stopper la fonction avec return
+  if (!book) {
+    return callback({ code: grpc.status.NOT_FOUND, message: 'Book not found' });
+  }
+
+  // 4. Si le livre existe, renvoyer le livre
   callback(null, book);
-
-  // TODO etape 4 : si le livre n'existe pas, renvoyer une erreur :
-  // callback({ code: grpc.status.NOT_FOUND, message: 'Book not found' });
-
 }
 
 // Etape 5 : methode server streaming ListBooks.
