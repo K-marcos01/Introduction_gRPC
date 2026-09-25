@@ -30,7 +30,6 @@ function getBook(client, id) {
       resolve(book);
     }
   });
-    reject(new Error('getBook is not implemented yet'));
   });
 }
 
