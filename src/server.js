@@ -39,7 +39,20 @@ function listBooks(call) {
   // TODO etape 5 : recuperer les livres avec findBooksByAuthor(call.request.author),
   // les envoyer un par un avec call.write(book), puis appeler call.end().
 
-  call.emit('error', { code: grpc.status.UNIMPLEMENTED, message: 'listBooks is not implemented yet' });
+  //1. Récupérer l'auteur envoyé dans la requête
+  const author = call.request.author;
+
+  //2. Chercher les livres correspondant à cet auteur
+  const books = findBooksByAuthor(author);
+  
+  //3. Envoyer les livres un par un
+  books.forEach((book) => {
+    call.write(book);
+  });
+
+  //4. Terminer le flux
+  call.end();
+
 }
 
 // Etape 6 (bonus) : methode client streaming AddBooks.
