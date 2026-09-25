@@ -61,8 +61,21 @@ function listBooks(call) {
 function addBooks(call, callback) {
   // TODO etape 6 : a chaque livre recu, appeler addBook(book) et compter.
   // A la fin, renvoyer callback(null, { addedCount: count }).
+  let count = 0;
 
-  callback({ code: grpc.status.UNIMPLEMENTED, message: 'addBooks is not implemented yet' });
+  // A chaque livre envoyé par le client :
+  call.on('data', (book) => {
+    // Ajouter le livre à la base de données
+    addBook(book);
+    // Incrémenter le compteur
+    count++;
+  });
+
+  // Quand le client a fini d'envoyer les livres :
+  call.on('end', () => {
+    // Renvoyer le nombre de livres ajoutés
+    callback(null, { addedCount: count });
+  });
 }
 
 // Cree le serveur et lui associe les methodes du service (fourni).
