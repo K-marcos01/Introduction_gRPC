@@ -9,6 +9,8 @@ service LibraryService {
 
   // TODO etape 2 : declarer ListBooks (server streaming).
   // Elle recoit un ListBooksRequest et renvoie un flux de Book.
+  rpc ListBooks (ListBooksRequest) returns (stream Book);
+
 
   // TODO etape 6 (bonus) : declarer AddBooks (client streaming).
   // Elle recoit un flux de Book et renvoie un AddBooksResponse.
@@ -26,10 +28,10 @@ message GetBookRequest {
 }
 
 // TODO etape 2 : creer le message ListBooksRequest
+// avec un seul champ texte nomme "author" (numero 1).
 message ListBooksRequest {
   string author = 1;
 }
-// avec un seul champ texte nomme "author" (numero 1).
 
 // TODO etape 6 (bonus) : creer le message AddBooksResponse
 // avec un seul champ entier nomme "added_count" (numero 1).
