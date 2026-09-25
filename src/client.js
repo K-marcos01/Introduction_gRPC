@@ -39,12 +39,24 @@ function listBooks(client, author) {
   return new Promise((resolve, reject) => {
     const books = [];
     // TODO etape 5 :
-    // const call = client.listBooks({ author });
-    // call.on('data', (book) => ...)   ajouter le livre dans books
-    // call.on('end', () => ...)        appeler resolve(books)
-    // call.on('error', (error) => ...) appeler reject(error)
 
-    reject(new Error('listBooks is not implemented yet'));
+    // L'appel génère un stream côté client.
+    const call = client.listBooks({author});
+
+    // Evennement déclenché à chaque fois qu'un livre est reçu.
+    call.on('data', (book) => {
+      books.push(book);
+    });
+
+    // Evennement déclenché quand le serveur a fini d'envoyer les livres.
+    call.on('end', () => {
+      resolve(books);
+    });
+
+    // Evennement déclenché si une erreur survient.
+    call.on('error', (error) => {
+      reject(error);
+    });
   });
 }
 
